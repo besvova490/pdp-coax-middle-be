@@ -23,7 +23,7 @@ const errorHandler = require('./controller/errorHandler');
 const sessionController = require('./controller/socketControllers/sessionController');
 const { messagesController, onUserTyping } = require('./controller/socketControllers/messagesController');
 const { usersController, onUserConnection, userDisconnectController } = require('./controller/socketControllers/usersController');
-const { onGameAction } = require('./controller/socketControllers/gameController');
+const { onGameAction, onUserConnect } = require('./controller/socketControllers/gameController');
 const { InMemorySessionStore } = require('./controller/socketControllers/sessionStore');
 const { InMemoryMessageStore } = require('./controller/socketControllers/messagesStore');
 
@@ -78,6 +78,7 @@ io.on(SOCKET_CONNECTION, (socket) => {
   });
   messagesController({ io, socket, messageStore });
   onGameAction({ io, socket });
+  onUserConnect({ io, socket });
   onUserTyping({ io, socket });
 
   socket.on(SOCKET_DISCONNECT, async () => {
