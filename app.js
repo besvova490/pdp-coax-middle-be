@@ -93,7 +93,7 @@ io.on('connect_error', (err) => {
 
 // api
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: process.env.EXPRESS_APP_FE_HOST,
   credentials: true,
 }));
 
