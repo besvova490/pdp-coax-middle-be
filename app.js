@@ -12,6 +12,7 @@ const methodOverride = require('method-override');
 const server = http.createServer(app);
 
 // service
+const models = require('./models');
 const { connectionCheck } = require('./services/db');
 const redisClient = require('./services/redis');
 
@@ -104,7 +105,9 @@ app.use(router);
 app.use(errorHandler);
 
 connectionCheck().then(() => {
-  server.listen(process.env.EXPRESS_APP_PORT, () => {
-    console.log(`listening on *:${process.env.EXPRESS_APP_PORT}`);
+  models.sequelize.sync().then(() => {
+    server.listen(process.env.EXPRESS_APP_PORT, () => {
+      console.log(`listening on *:${process.env.EXPRESS_APP_PORT}`);
+    });
   });
 });
